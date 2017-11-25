@@ -1,6 +1,7 @@
 module Node.Stream.Types where
 
-import Control.Monad.Eff (kind Effect)
+import Prelude
+import Control.Monad.Eff (kind Effect, Eff)
 
 -- | A stream.
 -- |
@@ -15,6 +16,9 @@ data Read
 
 -- | A readable stream.
 type Readable r = Stream (read :: Read | r)
+
+-- | The read callback for readable streams
+type ReadCb r eff = Readable (read :: Read | r) eff -> Size -> Eff eff Unit
 
 -- | A phantom type associated with _writable streams_.
 data Write
