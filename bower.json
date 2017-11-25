@@ -21,6 +21,7 @@
     "purescript-node-buffer": "^3.0.0",
     "purescript-prelude": "^3.0.0",
     "purescript-either": "^3.0.0",
-    "purescript-exceptions": "^3.0.0"
+    "purescript-exceptions": "^3.0.0",
+    "purescript-arraybuffer-types": "^2.0.0"
   }
 }

@@ -18,7 +18,9 @@ data Read
 type Readable r = Stream (read :: Read | r)
 
 -- | The read callback for readable streams
-type ReadCb r eff = Readable (read :: Read | r) eff -> Size -> Eff eff Unit
+type ReadCb eff = PushFn -> Size -> Eff eff Unit
+
+foreign import data PushFn :: Type
 
 -- | A phantom type associated with _writable streams_.
 data Write
