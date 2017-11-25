@@ -18,9 +18,12 @@ data Read
 type Readable r = Stream (read :: Read | r)
 
 -- | The read callback for readable streams
-type ReadCb eff = PushFn -> Size -> Eff eff Unit
+type ReadCb r p eff
+   = Readable r eff
+  -> Size
+  -> Eff (push :: Push p | eff) Unit
 
-foreign import data PushFn :: Type
+foreign import data Push :: Type -> Effect
 
 -- | A phantom type associated with _writable streams_.
 data Write
@@ -34,4 +37,3 @@ foreign import data Chunk :: Type
 
 -- | A duplex (readable _and_ writable stream)
 type Duplex = Stream (read :: Read, write :: Write)
-

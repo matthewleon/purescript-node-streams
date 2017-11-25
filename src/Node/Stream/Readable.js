@@ -3,32 +3,38 @@
 var stream = require("stream");
 
 exports.mkReadable = function (readCb) {
-  var stream = new stream.Readable({
-    read: function(size) {
-      readCb(stream.push, size);
-    }
-  });
-  return stream;
+  return function() {
+    var s = new stream.Readable({
+      read: function(length) {
+        readCb(s)(length)();
+      }
+    });
+    return s;
+  };
 };
 
-function push(pushFn) {
-  return pushFn;
-};
+function pushChunk(s) {
+  return function (chunk) {
+    return function() {
+      return s.push(chunk);
+    };
+  };
+}
 
-exports.pushBuffer = pushFn;
+exports.pushBuffer = pushChunk;
 
-exports.pushUint8Array = pushFn;
+exports.pushUint8Array = pushChunk;
 
-exports.pushString = pushFn;
+exports.pushString = pushChunk;
 
-exports.pushStringWithEncodingImpl = function (pushFn) { 
+exports.pushStringWithEncodingImpl = function (s) {
   return function (string) {
     return function (encoding) {
-      return pushFn(string, encoding);
+      return function() {
+        return s.push(string, encoding);
+      };
     };
   };
 };
 
-exports.pushEnd = function (pushFn) {
-  pushFn(null);
-};
+exports.pushEnd = pushChunk(null);
