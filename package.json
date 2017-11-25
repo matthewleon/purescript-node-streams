@@ -3,6 +3,7 @@
   "scripts": {
     "clean": "rimraf output && rimraf .pulp-cache",
     "build": "jshint src && jscs src && pulp build -- --censor-lib --strict",
+    "build:example": "jshint example && jscs example && pulp build -I example -- --censor-lib --strict",
     "test": "pulp test"
   },
   "devDependencies": {

@@ -11,7 +11,7 @@ import Node.Stream.Types (PushFn, Read, ReadCb, Readable)
 foreign import mkReadable
   :: forall r eff
    . ReadCb eff
-  -> Readable (read :: Read | r) eff
+  -> Eff eff (Readable (read :: Read | r) eff)
 
 foreign import pushBuffer :: forall eff. PushFn -> Buffer -> Eff eff Boolean
 
