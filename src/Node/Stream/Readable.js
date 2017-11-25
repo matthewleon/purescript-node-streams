@@ -16,11 +16,19 @@ function push(pushFn) {
 };
 
 exports.pushBuffer = pushFn;
+
 exports.pushUint8Array = pushFn;
+
 exports.pushString = pushFn;
+
+exports.pushStringWithEncodingImpl = function (pushFn) { 
+  return function (string) {
+    return function (encoding) {
+      return pushFn(string, encoding);
+    };
+  };
+};
+
 exports.pushEnd = function (pushFn) {
   pushFn(null);
 };
-
-// TODO
-// exports.pushStringWithEncoding;
